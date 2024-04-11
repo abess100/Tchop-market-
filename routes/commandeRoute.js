@@ -6,12 +6,12 @@ const verifyToken = require('../middleware/verifyToken');
 
 // selec tous les commande
 router.get("/", async (req, res) => {
-  const commande = await commande.find();
+  const commandes = await commande.find();
 
-  if (!commande) 
+  if (!commandes) 
   return res.status(400).send("Pas de commande ");
    if(req.session.UserId){
-    res.render('file',{commande})
+    res.render('file',{commandes})
    }
    res.render('connexion')
   // res.send(produitList);

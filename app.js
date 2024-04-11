@@ -37,8 +37,6 @@ app.set('view engine', 'ejs')
 app.use('/user', require('./routes/UserRoutes'))
 app.use('/', require('./routes/produitRoutes')) 
 app.use('/commande', require('./routes/commandeRoute'))
-app.use('/cart', require('./routes/cartRoutes'))
-app.use('/categories', require('./routes/categoriesRoutes'))
 app.use('/admin', require('./routes/adminRoutes'))
 // API 
 

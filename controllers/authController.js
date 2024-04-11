@@ -55,8 +55,8 @@ const userCtrl = {
       const comparepwd = await bcrypt.compare(password, user.password);
 
       if (!comparepwd){
-        // return res.status(400).send("mot de passe incorrect");
-        return res.render('inscriptionUser')
+        return res.status(400).send("mot de passe incorrect");
+        // return res.render('inscriptionUser')
       }
 
       if (comparepwd) {
@@ -68,7 +68,7 @@ const userCtrl = {
         // return res.json({ user, token });
         // console.log(token);
         req.session.UserId = user._id
-        return res.render('detailsProduit')
+        return res.render('file')
       }
     } catch (err) {
       res.status(500).send(err);

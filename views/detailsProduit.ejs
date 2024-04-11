@@ -68,15 +68,15 @@
 
       <p class="quantity">Quantité:</p>
       
-      <form  action="/commande/" method="post">
+      <form  action="/commande/" method="get">
         <div class="quantity-input">
           <div id="subtractButton"  onclick="copierValeur()">-</div>
           <input id="quantity" name="quantity" value="1" />
           <div id="addButton" onclick="copierValeur()">+</div>
         </div>
         <!-- <button id="addToCartBtn" onclick="togglePopup()">Commander</button> -->
-        <button id="addToCartBtn">Commander</button>
       </form>
+      <a href="/commande/"><button id="addToCartBtn" >Commander</button></a>
       <p>Total à payer: </p>
       <div>
         <p> <span id="totalPrice"></span> </span></p>
