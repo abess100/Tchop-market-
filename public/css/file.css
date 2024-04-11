@@ -1,0 +1,64 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background:  #05312e;
+}
+
+
+.conteneur{
+    width: 70%;
+    /* height: 80vh; */
+    /* border: 1px solid red; */
+    border-radius: 10px;
+    display: flex;
+    margin:49px auto ;
+    background-color: #fff;
+}
+
+
+.profile img{
+    width: 100px;
+    border-radius: 100%;
+}
+
+.profile{
+    width: 100%;
+    padding: 20px 50px;
+    
+}
+.profile div{
+    width: 30%;
+    margin: 0 auto;
+}
+.profile h1{
+    text-align: center;
+}
+.profile{
+    width: 100%;
+    padding: 20px;
+}
+
+strong{
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(17, 40, 30);
+}
+
+button{
+    padding: 10px;
+    font-weight: 700;
+    color: white;
+    background: #05312e;
+    border: 1px solid #05312e;
+    border-radius: 5px;
+}
+
+.congra img{
+    margin: 0 auto;
+    display: block;
+}
+h3{
+    text-align: center;
+    font-weight: bold;
+}

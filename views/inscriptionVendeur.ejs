@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulaire d'Enregistrement de Membre</title>
+<link rel="stylesheet" href="/css/register.css">
+</head>
+<body>
+<h2>Inscription </h2>
+<form id="registrationForm" action="/register" method="POST">
+    <label for="firstName">Prénom:</label>
+    <input type="text" id="firstName" name="firstName" required>
+
+    <label for="lastName">Nom:</label>
+    <input type="text" id="lastName" name="nom" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="password">Mot de passe:</label>
+    <input type="password" id="password" name="password" required>
+    
+    <label for="password">Confitmer mot de passe:</label>
+    <input type="password" id="password" required>
+
+    <button type="submit">S'inscrire</button>
+</form>
+</body>
+</html>

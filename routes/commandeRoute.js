@@ -2,7 +2,7 @@ const commande = require("../models/commandeModel");
 const express = require("express");
 const router = express.Router();
 
-// const verifyToken = require('../middleware/verifyToken');
+const verifyToken = require('../middleware/verifyToken');
 
 // selec tous les commande
 router.get("/", async (req, res) => {
@@ -14,9 +14,9 @@ router.get("/", async (req, res) => {
   res.send(produitList);
 });
 
+
 // select une commande
 router.get("/:id", async (req, res) => {
-
   const id = req.params.id;
   const user = await commande.findById(id);
   res.status(200).send(user);
@@ -24,19 +24,41 @@ router.get("/:id", async (req, res) => {
 
 
 // ajouter un commande
+router.post("/add/delta", async (req, res) => {
+  const commandes = new commande({
+    userId: req.body.userId,
+    produit:  [
+      {
+        produitId: req.body.produitId,
+        quantite: req.body.quantite,
+      }, 
+    ],
+    montant : req.body.montant,
+    status : req.body.status
+  });
+  res.render('file',{commandes})
+ 
+});
+
+
 router.post("/add", async (req, res) => {
   const commandes = new commande(req.body);
   try {
-    const newCommande= await  commandes.save();
-    if (!newCommande) 
-    return res.send("le commande n'a pas été ajouté ");
+    
+      const newCommande= await  commandes.save();
+      if (!newCommande) {
+        return res.send("le commande n'a pas été ajouté ");
+        }
+    return res.status(200).json(newCommande);
+    // return res.render('resp')
 
-    res.status(200).json(newCommande);
-  } catch (err) {
+    
+  }catch(err) {
 
     console.log(err);
   }
 });
+
 
 // mettre à jour un commande
 router.put("/update/:id", async (req, res) => {
@@ -49,6 +71,7 @@ router.put("/update/:id", async (req, res) => {
     res.status(500).json({ message: err });
   }
 });
+
 
 // supprimer un commande
 router.delete("/delete/:id", async (req, res) => {

@@ -1,58 +1,53 @@
 const produit = require("../models/produitModel");
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
 
-// const verifyToken = require('../middleware/verifyToken');
-const FILE_TYPE_MAP = {
-    "image/png": "png",
-    "image/jpeg": "jpeg",
-    "image/jpg": "jpg",
-}
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const isValid = FILE_TYPE_MAP[file.mimetype];
-    let uploadError = new Error("invalid image type");
+const update = require("../controllers/upload");
+const verify = require('../middleware/verifyToken')
 
-    if(isValid) return uploadError = null;
-    cb(null, "public/uploads");
-  },
-  filename: function (req, file, cb) {
-    
-    const fileName = file.originalname.split(" ").join("-");
-    const extension = FILE_TYPE_MAP[file.mimetype];
-    cb(null, file.fieldname + "-" + Date.now().extension);
-  },
-});
-
-const uploadOption = multer({ storage: storage });
-
-const upload = multer({ storage: storage });
-
-// selec tous les produits
+// select tous les produits
 router.get("/", async (req, res) => {
   const produitList = await produit.find();
   if (!produitList) return res.status(400).send("Pas de produit ");
-  res.send(produitList);
+  // res.send(produitList);
+  res.render('market',{ produitList});
+
 });
 
 // select one produit
-router.get("/:id", async (req, res) => {
+router.get("/produit/:id", async (req, res) => {
   const id = req.params.id;
-  const user = await produit.findById(id);
-  res.status(200).send(user);
+  const produitDetail = await produit.findById(id).sort({updatedAt: -1 });
+  const pourcentage  = (produitDetail.prixInit - produitDetail.prixRéduit ) / produitDetail.prixInit * 100
+  
+  const quantity = req.body.quantity;
+
+  // res.status(200).send(produitDetail);
+  res.render('detailsProduit',{ produitDetail, pourcentage, quantity});
+
 });
 
 // ajouter un produit
-router.post("/add", uploadOption.single("image"), async (req, res) => {
-  const fileName = req.file.filename;
-  const basepath = `${req.protocol}://${req.get("host")}/public/uploads/`;
-  const newproduit = new produit(req.body, { image: `${basepath}${fileName}` });
- 
+router.post("/produit/add", update.single("image"), async (req, res) => {
+  const newproduit = new produit({
+    titre: req.body.titre,
+    desc: req.body.desc,
+    image: "/data/uploads/" + req.file.filename,
+    prixinit: req.body.prixinit,
+    category: req.body.catégory,
+    prixreduit: req.body.prixreduit,
+    stock: req.body.stock,
+  });
+
+  if (req.file) {
+    newproduit.image = "/data/uploads/" + req.file.filename;
+  }
+
   try {
     const Produits = await newproduit.save();
-    if (!produit) return res.send("le produit n'a pas été ajouté ");
-    
+    if (!Produits) return res.send(produit);
+
+    // res.status(200).json(Produits);
     res.status(200).json(Produits);
   } catch (err) {
     console.log(err);
@@ -60,26 +55,44 @@ router.post("/add", uploadOption.single("image"), async (req, res) => {
 });
 
 // mettre à jour un produit
-router.put("/update/:id", async (req, res) => {
-  const id = req.params.id;
-
-  try {
-    const updateproduits = await produit.findByIdAndUpdate(id, req.body);
-    res.status(200).json("le produit a été mis à jour");
-  } catch {
-    res.status(500).json({ message: err });
-  }
+router.put("/produit/update/:id", update.single("image"), async (req, res) => {
+const userId = req.params.id;
+  const prod = await produit.findById(userId);
+    try {
+      
+        const updateproduits = await produit.findByIdAndUpdate(
+            userId,
+            {
+                $set: {
+                    titre: req.body.titre,
+                    description: req.body.description,
+                    image: "/data/uploads/" + req.file.filename,
+                    categories: req.body.catégories,
+                    prixInit: req.body.prixInit,
+                    prixRéduit: req.body.prixRéduit,
+                    stock: req.body.stock,
+                },
+            },
+            { new: true }
+        );
+               res.status(200).json(updateproduits);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Une erreur est survenue lors de la mise à jour des informations de l\'produit' });
+    }  
 });
 
 // supprimer un produit
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/produit/delete/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const deleteproduits = await produit.findByIdAndDelete(id);
     res.status(200).send("le produit a été supprimé");
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).json({ message: "l'erreur est : " + err });
   }
 });
+
+
 
 module.exports = router;

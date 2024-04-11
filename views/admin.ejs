@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page d'Administration</title>
+    <link rel="stylesheet" href="/css/admin.css" />
+</head>
+
+<body>
+    <div class="conteneur ">
+        <div class="bloc1">
+            <h2>Marketplace</h2>
+            <a href="" class="lien">
+                <button class="tablinks active addb button" onclick="openTab(event, 'tab1')">
+                    <img src="/image/sauver-la-nature.png" alt="" />
+                    <p>Mes commandes</p>
+
+                </button>
+            </a>
+
+            <a href="#" class="link">
+                <button class="tablinks  addb button" onclick="openTab(event, 'tab2')">
+                    <img src="/image/sauver-la-nature.png" alt="" width="20px" height="20px" />
+                    <p>Gérer mes annonces</p>
+
+                </button>
+            </a>
+
+            <a href="#" class="lien">
+                <button class="tablinks  addb button" button onclick="openTab(event, 'tab3')">
+                    <img src="/image/sauver-la-nature.png" alt="" width="20px" height="20px" />
+                    <p>Ajouter un produit</p>
+
+                </button>
+                <div class="flex">
+
+                </div>
+            </a>
+        </div>
+        <div class="bloc2">
+            <a href="" class="lien">
+                <button class="tablinks active addb button" onclick="openTab(event, 'tab1')">
+                    <p>Ajouter produit</p>
+                </button>
+            </a>
+
+            <a href="#" class="link">
+                <button class="tablinks  addb button" onclick="openTab(event, 'tab2')">
+                    <p>Mes commandes</p>
+                </button>
+            </a>
+
+            <a href="#" class="lien">
+                <button class="tablinks  addb button" button onclick="openTab(event, 'tab3')">
+                    <p> mes annonces</p>
+                </button>
+            </a>
+        </div>
+
+        <div class="miniconteneur tab">
+
+            <!-- AJOUTER UN PRODUIT  -->
+            <div class="tabcontent active" id="tab1">
+                <h2>MES COMMANDES</h2>
+                <div class="commande">
+                        <p>Client: <span>Jean </span></p>
+                        <p>Quantité: <span> 5</span></p>
+                        <p>Produit: <span> Patates douces</span></p>
+                        <p>Montant: <span> 3000 CFA</span></p>
+                        <button class="target">payé</button>
+                </di>
+            </div>
+
+            <!-- LES ANNNONCES -->
+            <div class=" tabcontent " id="tab2">
+                <div class="product-details">
+                    <img src="/image/salad-from-tomatoes-cucumber-red-onions-lettuce-leaves-healthy-summer-vitamin-menu-vegan-vegetable-food-vegetarian-dinner-table-top-view-flat-lay.jpg"
+                        alt="Nom du Produit" width="200px" />
+                    <div class="bbt">
+                        <h2>Nom du Produit</h2>
+                        <p>Description du Produit</p>
+                        <p>Prix: 1000 CFA</p>
+                        <p>Quantité</p>
+                        <div class="btn">
+                            <button>mettre à jour</button>
+                            <button>supprimer</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div id="tab3" class="tabcontent add-product-form ">
+               
+                <h1>Ajouter un Produit</h1>
+                <form id="addProductForm" action="/produit/add" method="post" enctype="multipart/form-data">
+                    <label for="productName">Nom du Produit:</label>
+                    <input type="text" id="productName" name="titre" required />
+
+                    <label for="productDescription">Description:</label>
+                    <textarea id="productDescription" name="desc" rows="6" required></textarea>
+
+                    <div class="prix">
+                        <div class="int">
+                            <label for="productPrice">Prix initial:</label>
+                            <input type="number" id="productPrice" name="prixinit" required />
+                        </div>
+                        <div class="int">
+                            <label for="productPrice">Prix réduit :</label>
+                            <input type="number" id="productPrice" name="prixreduit" required />
+                        </div>
+                    </div>
+
+                    <label for="category">catégorie:</label>
+                    <input type="text" id="category" name="category" required />
+                    
+                    <label for="productName">stock:</label>
+                    <input type="number" id="productName" name="stock" required />
+
+                    <label for="productImage">Photo:</label>
+                    <input type="file" id="productImage" name="image" required />
+
+
+                    <button type="submit">Ajouter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/detail.js"></script>
+</body>
+
+</html>

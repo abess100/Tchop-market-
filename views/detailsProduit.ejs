@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/market.css" />
+  <title>Détail du produit</title>
+</head>
+
+<body>
+  <section class="product-details">
+    <div class="product-info">
+      <h2>
+        <%=produitDetail.titre %>
+      </h2>
+      <h4> pour le vendeur <%=produitDetail.vendeur %>
+      </h4>
+      <div class="lieu">
+        <div class="img">
+          <img src="/image/sauver-la-nature.png" alt="" />
+        </div>
+        <p> le lieu <%=produitDetail.lieu %>
+        </p>
+      </div>
+      <div class="date-heure">
+        <div class="lieu">
+          <div class="img">
+            <img src="/image/sauver-la-nature.png" alt="" weidth="13px" />
+          </div>
+          <p>18 fev 2024 - 16 fev 2024</p>
+        </div>
+        <div class="heure lieu">
+          <div class="img">
+            <img src="/image/sauver-la-nature.png" alt="" weidth="13px" />
+          </div>
+          <p>8:00 - 20:00</p>
+        </div>
+      </div>
+      <div class="prodimg">
+        <div class="imageProduct">
+          <img src=<%=produitDetail.image%> alt="photo Produit" />
+        </div>
+        <div class="desc">
+          <h2>Description du produit</h2>
+          <p>
+            <%=produitDetail.description %>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="choix">
+      <div class="quantity-section order-section">
+        <div class="prix">
+          <div>
+            <p class="prixInit">
+              <%=produitDetail.prixInit %> CFA
+            </p>
+            <p class="priceReduc">500 CFA <%=produitDetail.priceReduc %>
+            </p>
+          </div>
+          <p>Economie réaliser de <span>
+              <%=pourcentage%>%
+            </span></p>
+        </div>
+      </div>
+      <p class="qtite">20 RESTANT (S) </p>
+
+      <p class="quantity">Quantité:</p>
+      
+      <form  action="/commande/add/delta" method="post">
+        <div class="quantity-input">
+          <div id="subtractButton"  onclick="copierValeur()">-</div>
+          <input id="quantity" name="quantity" value="1" />
+          <div id="addButton" onclick="copierValeur()">+</div>
+        </div>
+        <!-- <button id="addToCartBtn" onclick="togglePopup()">Commander</button> -->
+        <button id="addToCartBtn">Commander</button>
+      </form>
+      <p>Total à payer: </p>
+      <div>
+        <p> <span id="totalPrice"></span> </span></p>
+
+      </div>
+
+
+    </div>
+  </section>
+
+
+
+    <div class="popup" id="popup">
+      <div class="popup-content">
+        <h2>N° commande</h2>
+        <p class="num">123456789</p>
+        <p class="col">Prêt pour la collecte</p>
+        <div class="lieu">
+          <img src="/image/sauver-la-nature.png" alt="">
+          <p>Ajourd'hui, 22 mars 2024</p>
+        </div>
+        <div class="lieu">
+          <img src="/image/sauver-la-nature.png" alt="">
+          <p>fin de la collecte la date()</p>
+        </div>
+  
+        <p class="col">Présenter votre numéroo de commande à l'accueil pour recevoir votre collecte</p>
+        <p class="col">Bonus pour la collecte</p>
+        <button class="close" onclick="togglePopup()" >Ok</button>
+      </div>
+  </div>
+
+
+  <script src="/js/detail.js"></script>
+</body>
+
+</html>

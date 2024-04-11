@@ -4,12 +4,19 @@ const UserCtrl = require('../controllers/authController');
 const verifyToken = require('../middleware/verifyToken');
 const User = require("../models/userModel");
 const verifyJWTandAuthorization = require("../middleware/verifyToken");
+const bcrypt = require('bcrypt')
 // register
 
 // tous les utilisateurs
 router.get('/all', async (req, res) => {
     const userlist = await User.find();
-    res.send(userlist);
+    if(req.session.UserId){
+      res.send(userlist);
+    }else{
+      res.send('test session')
+      
+    }
+
   })
 
 // un seul utilisateur
@@ -45,7 +52,7 @@ router.put('/update/:id', verifyToken.verifyToken, async (req, res) => {
 
 // delete
   
-router.delete('/delete/:id', verifyToken.verifyJWTandAuthorization, async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
    
     const id = req.params.id;
     try {

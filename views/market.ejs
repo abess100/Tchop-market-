@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/market.css" />
+  <title>Responsive Nav-Bar</title>
+</head>
+
+<body>
+  <%- include('./header.ejs') %>
+
+    <!-- barre de recherche -->
+
+    <div class="search-container">
+      <select name="category">
+        <option value="">Toutes les catégories</option>
+        <option value="electronics">Electronique</option>
+        <option value="clothing">Vêtements</option>
+        <option value="books">Livres</option>
+      </select>
+      <select name="city">
+        <option value="">Toutes les villes</option>
+        <option value="paris">Paris</option>
+        <option value="london">Londres</option>
+        <option value="newyork">New York</option>
+      </select>
+      <button type="submit">Rechercher</button>
+    </div>
+
+
+    <!-- SECTION PRODUCT -->
+    <section class="product-session">
+      <% produitList.map(produit=> { %>
+
+        <div class="product-card">
+          <a href="/produit/<%= produit._id %>">
+            <div class="imageProduct">
+              <img src=<%=produit.image %> alt=" image du produit" />
+            </div>
+
+            <div class="infoProduct">
+              <h2>
+                <%= produit.titre %>
+              </h2>
+              <H4>Nom Vendeur</H4>
+              <div class="lieu">
+                <div class="img">
+                  <img src="/image/sauver-la-nature.png" alt="" />
+                </div>
+                <p>boulevard</p>
+              </div>
+              <div class="date-heure">
+                <div class="lieu">
+                  <div class="img">
+                    <img src="/image/sauver-la-nature.png" alt="" weidth="13px" />
+                  </div>
+                  <p>18 fev 2024 - 16 fev 2024</p>
+                </div>
+                <div class="heure lieu">
+                  <div class="img">
+                    <img src="/image/sauver-la-nature.png" alt="" weidth="13px" />
+                  </div>
+                  <p>8:00 - 20:00</p>
+                </div>
+              </div>
+              <p class="qtite">20 RESTANT (S)</p>
+
+            </div>
+            <div class="prix">
+              <div>
+                <p class="prixInit">1000 CFA</p>
+                <p class="priceReduc">500 CFA</p>
+              </div>
+              <p>Economie réaliser <span>50% </span> </p>
+            </div>
+          </a>
+        </div>
+        <% }); %>
+
+    </section>
+
+    <script src="/js/main.js"></script>
+</body>
+
+</html>
