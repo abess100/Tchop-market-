@@ -10,8 +10,11 @@ router.get("/", async (req, res) => {
 
   if (!commande) 
   return res.status(400).send("Pas de commande ");
-
-  res.send(produitList);
+   if(req.session.UserId){
+    res.render('file',{commande})
+   }
+   res.render('connexion')
+  // res.send(produitList);
 });
 
 
@@ -20,6 +23,7 @@ router.get("/:id", async (req, res) => {
   const id = req.params.id;
   const user = await commande.findById(id);
   res.status(200).send(user);
+
 });
 
 
