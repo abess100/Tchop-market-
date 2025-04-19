@@ -7,10 +7,11 @@ const verify = require('../middleware/verifyToken')
 
 // select tous les produits
 router.get("/", async (req, res) => {
-  const produitList = await produit.find();
-  if (!produitList) return res.status(400).send("Pas de produit ");
-  // res.send(produitList);
-  res.render('market',{ produitList});
+  // const produitList = await produit.find();
+  // if (!produitList) return res.status(400).send("Pas de produit dans la liste");
+  // // res.send(produitList);
+  // res.render('market',{ produitList});
+  res.send('Hello world')
 
 });
 
@@ -23,7 +24,7 @@ router.get("/produit/:id", async (req, res) => {
   const quantity = req.body.quantity;
 
   // res.status(200).send(produitDetail);
-  res.render('detailsProduit',{ produitDetail, pourcentage, quantity});
+  res.render('detailsProduit :',{ produitDetail, pourcentage, quantity});
 
 });
 

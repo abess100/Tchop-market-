@@ -29,12 +29,12 @@ const userCtrl = {
         password: passwordhash,
       });
       const use = await newUser.save();
+      res.send('utilisateur crée', use)
 
       if (!use){
         return res.statut(400).send("l'utilisateur n'a pas été crée");
         return res.render('inscriptionUser')
       }
-
         req.session.UserId = use._id
       // return res.json(newUser);
         return res.render('detailsProduit')

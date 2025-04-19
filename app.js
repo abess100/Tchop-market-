@@ -1,44 +1,27 @@
 require('dotenv').config({path: './config/.env'})
 require('./config/db')
 const express = require("express");
-const port =  process.env.PORT ;
+const port =  process.env.port || 4000 ;
 const bodyParser = require('body-parser')
-const path = require('path')     
-const ejs = require('ejs')
-const session = require('express-session')
+const morgan =require('morgan')
+const cors = require('cors')
 const app = express();
 
-// fichier statique
-// app.use(express.static(path.join(__dirname, 'uploads')));
-app.use(express.static(path.join(__dirname, 'public')));
-
 // middleware 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended:true}))
-app.use(session({
-    name: 'session_projet',
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.session_secret,
-    cookie:{
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        secure:false
-    }
-}))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(morgan("dev"));
+app.use(cors());
 
-// view engine
-app.set('views', 'views')
-app.set('view engine', 'ejs')
-
-// 
-// params API
-
-// app.use('/', require('./routes/produitRoutes'))
+// route
 app.use('/user', require('./routes/UserRoutes'))
-app.use('/', require('./routes/produitRoutes')) 
+app.use('/produit', require('./routes/produitRoutes')) 
 app.use('/commande', require('./routes/commandeRoute'))
 app.use('/admin', require('./routes/adminRoutes'))
-// API 
+
+app.get('/', (req,res) => {
+    return res.status(200).send('Hello to server')
+})
 
  
 
