@@ -3,27 +3,35 @@ const produitschema = new mongoose.Schema(
   {
     titre: { 
       type: String, 
-      require: true, 
+      require: [true, "le nom du produit est obligatoire"], 
      },
-    desc: { 
+    description: { 
       type: String, 
-      require: true 
+      require: [true, "la description du produit est obligatoire"] 
     },
     image: {
-      type: String 
+      type: [String ]
     },
-    category: {
-       type: String
+    categorie: {
+       type: mongoose.Schema.Types.ObjectId,
+       ref: "categorie",
+       default: "undefined",
       },
-    prixinit: {
-       type: Number, require: true 
+    prixVente: {
+       type: Number, 
+       require: [true , "le prix de vente est obligatoire"],
       },
-    prixreduit: { 
-      type: Number, require: true 
+    prixPromotion: { 
+      type: Number, 
+      require:[ true , "le prix promotionnel est obligatoire"],
     },
     stock: { 
       type: Number, 
-      require: true 
+      require: [true , "le stock du produit est obligatoire"]
+    },
+    quantity: { 
+      type: Number, 
+      require: [true , "la quantité du produit est obligatoire"]
     },
    
   },

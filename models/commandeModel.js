@@ -1,15 +1,70 @@
 const mongoose = require("mongoose");
+
 const commandeschema = new mongoose.Schema(
   {
-    userId: { type: String, require: true, unique: true },
-    produit:  [
+    shippingInfo: {
+      address: {
+         type: String, 
+         required: true 
+    },
+      city: { 
+        type: String, 
+        required: true
+     },
+      phoneNumber: { 
+        type: Number, 
+        required: true 
+      },
+    },
+    Listproduit:  [
       {
-        produitId: { type: String },
-        quantite: { type: Number, default: 1 },
+        nom: { 
+          type: String ,
+          required: true,
+        },
+        prix: { 
+          type: Number,
+          required: true,
+        },
+        quantite: { 
+          type: Number, 
+          required: true,
+          default: 1 
+        },
+        image: {
+          type: String, 
+          require: true,
+        },
+        produit: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "produit",
+          required: true,
+        },
       }, 
     ],
-    montant : {type: Number },
-    status : {type: String, default: "non livré"}
+     
+    prixProduit: {
+      type: Number,
+      required: true,
+    },
+    montantTotal : {
+      type: Number,
+      required: true,
+    },
+    statusCommance : {
+      type: String,
+      enum: [
+        "en attente",
+        "livré",
+        "annulé",
+      ],
+      default: "en attente",
+    },
+    dateLivraison : Date,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
   },
   { timestamps: true }
 );

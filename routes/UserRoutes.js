@@ -1,68 +1,42 @@
 const express = require("express");
 const router = express.Router();
-const UserCtrl = require('../controllers/authController');
-const verifyToken = require('../middleware/verifyToken');
+const UserCtrl = require("../controllers/authController");
 const User = require("../models/userModel");
-const verifyJWTandAuthorization = require("../middleware/verifyToken");
-const bcrypt = require('bcrypt')
-// register
+const  isAuth  = require("../middleware/authMiddleware");
+const userCtrl = require("../controllers/authController");
 
-// tous les utilisateurs
-router.get('/all', async (req, res) => {
-    const userlist = await User.find();
-    if(req.session.UserId){
-      res.send(userlist);
-    }else{
-      res.send('test session')
-      
-    }
-
-  })
-
-// un seul utilisateur
-router.get('/:id', async (req, res) => {
-    const id = req.params.id;
-    const user = await User.findById(id);
-    res.status(200).send(user);
-})
-
+router.get("/all", async (req, res) => {
+  const users = await  User.find();
+  if (!users) return res.status(404).send("aucun utilisateur trouvé")
+  res.send({massage:"les usersu",users});
+});
 // register
 router.post("/register", UserCtrl.register);
 
 // login
 router.post("/login", UserCtrl.login);
 
-// update
-router.put('/update/:id', verifyToken.verifyToken, async (req, res) => {
- 
-    const id = req.params.id;
-  const passwordhash = await bcrypt.hash(req.body.password, 10);
- 
-  if(req.body.password){
-    req.body.password = passwordhash
-  }  
+// déconnexion
+router.get("/logout", UserCtrl.logout);
 
-  try {
-    const updateUser = await User.findByIdAndUpdate(id, req.body);
-    res.status(200).json(updateUser);
-  } catch {
-    res.status(500).json({ message: err });
-  }
-},)
+// profile User
+router.get("/profile",isAuth, async (req, res) => {
+  const id = req.user._id;
+  const user = await  User.findById(id);
+  res.status(200).send({message:"vous êtes connecté",user});
+
+})
+
+// update user profile
+router.put("/update/",isAuth, userCtrl.updateUser);
+// update user password 
+router.put("/updatePassword",isAuth, userCtrl.updatePassword);
 
 // delete
-  
-router.delete('/delete/:id', async (req, res) => {
-   
-    const id = req.params.id;
-    try {
-      const user = await User.findByIdAndDelete(id);
-      res.status(200).send('l\'utilisateur a été supprimé');
-    } catch (err) {
-      res.status(500).json({ message: err });
-    }
-  },
-)
+
+router.delete("/delete/:id", userCtrl.deleteUser);
+
+// update user profile image
 
 
 module.exports = router;
