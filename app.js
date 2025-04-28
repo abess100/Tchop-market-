@@ -1,7 +1,7 @@
 require('dotenv').config({path: './config/.env'})
 require('./config/db')
 const express = require("express");
-const port =  process.env.port || 4000 ;
+const port =  process.env.PORT || 4000 ;
 const bodyParser = require('body-parser')
 const cookieParser = require("cookie-parser");
 const cloudinary = require('cloudinary').v2
@@ -42,5 +42,5 @@ app.get('/', (req,res) => {
 
 
 app.listen(port, ()=>{
-    console.log('serveur a démarré au port ' + port);
+    console.log(`LE SERVER EST LANCER SUR LE PORT ${port}`);
 })
