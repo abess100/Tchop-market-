@@ -3,7 +3,7 @@ const router = express.Router();
 const Admin = require("../models/adminModel");
 const AdminCtrl = require("../controllers/authVendeurController");
 const verifyToken = require("../middleware/authMiddleware");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 router.get("/all", async (req, res) => {
   const adminlist = await Admin.find();
