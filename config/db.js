@@ -1,7 +1,7 @@
 const mongoose  = require('mongoose')
 
 
-mongoose.connect(process.env.dbConnect)
+mongoose.connect(process.env.MONGO_URI)
 .then(()=> console.log('connection à la base de donnée a réussie'))
 .catch((err)=> {
     return console.log("mongo db : ", err)
