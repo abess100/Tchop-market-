@@ -6,11 +6,12 @@ const bodyParser = require('body-parser')
 const cookieParser = require("cookie-parser");
 const cloudinary = require('cloudinary').v2
 const isauth = require('./middleware/authMiddleware')
+const connectDB = require('./config/db')
 
 const morgan =require('morgan')
 const cors = require('cors')
 const app = express();
-
+connectDB()
 // claudinary config
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
