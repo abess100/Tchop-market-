@@ -6,27 +6,47 @@ const produits = require("../models/produitModel");
 
 // selec tous les commande
 router.get("/",  async (req, res) => {
-  const commandes = await commande.find();
-
-  if (!commandes) return res.status(400).send("Pas de commande ");
-  if (req.session.UserId) {
-    res.render("file", { commandes });
+  try{
+    const commandes = await commande.find({userId: req.user._id})
+    if (!commandes || commandes.length === 0) return res.status(400).send("Pas de commande ");
+    res.status(200).send({
+      message:'la liste des commandes',
+      totalCommande: commandes.length,
+      commandes,
+      });
+  }catch(error){
+    if (error.name === "CastError") {
+      return res.status(400).send("id de commande invalide");
+    }
+    res.status(500).send({message:'une erreur est survenue', error}) 
   }
-  res.render("connexion");
-  // res.send(produitList);
+  
 });
 
-// select une commande
+// selectionne un commande
 router.get("/:id", async (req, res) => {
-  const id = req.params.id;
-  const user = await commande.findById(id);
-  res.status(200).send(user);
+  try {
+    const id = req.params.id;
+    // recherche commande par id
+    const commandeId = await commande.findById(id); 
+    // validation
+    if (!commandeId) return res.status(400).send("Pas de commande avec cet id ");       
+    res.status(200).send({
+      message:'la commande',
+      commandeId,
+      });
+  } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).send("id de commande invalide");
+    }
+    res.status(500).send({message:'une erreur est survenue', error}) 
+  } 
 });
 
 // ajouter un commande
 router.post("/add", async (req, res) => {
-
   try{
+    
     const {
       shippingInfo, 
       Listproduit, 
@@ -40,42 +60,28 @@ router.post("/add", async (req, res) => {
       return res.status(400).send("veuillez remplir tous les champs");
     }
 
-    // créer une nouvelle commande
-    await commande.create({
-      user: req.user.id,
-      shippingInfo, 
-      Listproduit, 
+    const newCommande = new commande({
+      shippingInfo,
+      Listproduit,    
       prixProduit,
-      montantTotal,
-    })
+      montantTotal,   
+      userId: req.user._id,
+    });
+    await newCommande.save();
 
     // mettre à jour le stock de produit
     for (let i = 0; i < Listproduit.length; i++) {
       // cherche produit 
       const produit = await produits.findById(Listproduit[i].produit);
-      produit.stock -= Listproduit[i].quantite;
+      produit.stock -= Listproduit[i].quantite ;
+      console.log(produit);
       await produit.save();
     }
-    
+    console.log("bonsoir");
     res.status(200).send("la commande validée avec succès");
-    
 
   }catch(err){
     res.status(500).send({message:'une erreur est survenue', err}) 
-  }
-});
-
-router.post("/add", async (req, res) => {
-  const commandes = new commande(req.body);
-  try {
-    const newCommande = await commandes.save();
-    if (!newCommande) {
-      return res.send("le commande n'a pas été ajouté ");
-    }
-    return res.status(200).json(newCommande);
-    // return res.render('resp')
-  } catch (err) {
-    console.log(err);
   }
 });
 

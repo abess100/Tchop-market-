@@ -5,7 +5,7 @@ const User = require("../models/userModel");
 const  isAuth  = require("../middleware/authMiddleware");
 const userCtrl = require("../controllers/authController");
 
-router.get("/all", async (req, res) => {
+router.get("/all", async (req, res) => {   
   const users = await  User.find();
   if (!users) return res.status(404).send("aucun utilisateur trouvé")
   res.send({massage:"les usersu",users});

@@ -35,7 +35,7 @@ const commandeschema = new mongoose.Schema(
           type: String, 
           require: true,
         },
-        produit: {
+        produitID: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "produit",
           required: true,
@@ -61,9 +61,10 @@ const commandeschema = new mongoose.Schema(
       default: "en attente",
     },
     dateLivraison : Date,
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "users",
+      required: true,
     },
   },
   { timestamps: true }

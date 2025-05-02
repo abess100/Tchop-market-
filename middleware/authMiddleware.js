@@ -4,17 +4,15 @@ const User = require("../models/userModel");
 
 const isAuth = async (req, res, next) => {
   const { token } = req.cookies || req.headers.authorization;
-  if (!token){
-    console.log("token non trouvé");
-    
+  if (!token){    
     return res.status(401).send("vous n'etes pas authentifié ");}
   try {
     const decodeData = jwt.verify(token, process.env.JWT_SECRET);
     // search user dans la BD
-    req.user = await User.findById(decodeData.id);
-    if (!req.user) return res.status(401).send("utilisateur non trouvé");
+    const user = await User.findById(decodeData.id);
+    if (!user) return res.status(401).send("utilisateur non trouvé");
+    req.user = user;
     next();
-    
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       return res.status(401).send({messge: "le token a expiré"});
